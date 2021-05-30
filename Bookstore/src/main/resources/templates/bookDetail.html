@@ -1,0 +1,238 @@
+
+<!doctype html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head th:replace="common/header :: common-header" />
+
+
+<body>
+
+	<div th:replace="common/header :: navbar"> </div>
+
+	<div class="container">
+    <div class="row" style="margin-bottom: -100px;">
+        <div class="col-xs-4">
+        <h1>Online bookstore using recommendation system</h1>
+            
+                
+        </div>
+        <div class="col-xs-8">
+            <h2 class="section-headline1">
+                <h2 class="section-headline1">
+                    <span>Book Details</span>
+                   <!-- <span th:text="${user}? ${(user.id)} : 'Book Details'"></span> -->
+                   </h2>
+            </h2>
+        </div>
+    </div>
+   
+   
+
+    
+    <form th:action="@{/shoppingCart/addItem}" method="post">
+    	<input hidden="hidden" th:field="*{book.id}" />
+    	<div class="row" style="margin-top: 120px;">
+    		<div class="col-xs-3">
+    			<a th:href="@{/bookshelf}">Back to book list</a><br/>
+    			<img class="img-responsive shelf-book" th:src="#{adminPath}+@{/image/book/}+${book.id}+'.png'" />
+    		</div>
+    		
+    		<div class="col-xs-9">
+    			<h3><span th:if="${addBookSuccess}" style="color: forestgreen"><i class="fa fa-check" aria-hidden="true" style="color: forestgreen"></i>Added to cart.</span></h3>
+    			<h3><span th:if="${notEnoughStock}" style="color: red">Oops, only <span th:text="${book.inStockNumber}"></span> In Stock.</span></h3>
+    			<!-- !=null}? ${ins.eValue}:'NA'" -->
+    			<span th:text="${rating !=null}? ${rating} : 'null value'" style="font-size: 40px">nothing</span><img src="/image/star.png" style ="width: 35px; margin-bottom: 25px; margin-left: 10px;">
+    			<h3><strong><span th:text="${book.title}">Book Title</span></strong> &nbsp;<span style="color:#696969;"><span style="font-style:italic;" th:text="${book.edition}"></span></span></h3>
+    			<div class="row">
+    				<div class="col-xs-5">
+    					<h5><strong>Author: </strong><span th:text="${book.author}"></span></h5>
+    					<p><strong>Publisher: </strong><span th:text="${book.publisher}"></span></p>
+    					<p><strong>Publication Date: </strong><span th:text="${book.publicationDate}"></span></p>
+    					<p><strong>Language: </strong><span th:text="${book.language}"></span></p>
+    					<p><strong>Category: </strong><span th:text="${book.category}"></span></p>
+    					<p><strong><span th:text="${book.format}"></span>: </strong><span th:text="${book.numberOfPages}"></span> pages</p>
+    					<p><strong>ISBN: </strong><span th:text="${book.isbn}"></span></p>
+    					<p><strong>Shipping Weight: </strong><span th:text="${book.shippingWeight}"></span> ounces</p>
+    				</div>
+    				
+    				<div class="col-xs-7">
+    					<div class="panel panel-default" style="border-width: 5px; margin-top: 20px;">
+    						<div class="panel-body">
+    							<div class="row">
+    								<div class="col-xs-6">
+    									<h4>Our Price: <span style="color:#db3208;">$<span th:text="${book.ourPrice}"></span></span></h4>
+    									<p>List Price: <span style="text-decoration: line-through">$<span th:text="${book.listPrice}"></span></span></p>
+    									<p>You save: $<span th:text="${#numbers.formatDecimal((book.listPrice - book.ourPrice), 0, 'COMMA', 2, 'POINT' )}"></span></p>
+    									<span>Qty: </span>
+    									<select name="qty">
+    										<option th:each="qty : ${qtyList}" th:value="${qty}" th:text="${qty}">
+    										</option>
+    									</select>
+    								</div>
+    								
+    								<div class="col-xs-6">
+    									<h4 th:if="*{book.inStockNumber&gt;10}" style="color: green">In Stock</h4>
+    									<h4 th:if="*{book.inStockNumber&lt;10 and book.inStockNumber&gt;0}" style="color: green">Only <span th:text="${book.inStockNumber}"> </span> In Stock</h4>
+    									<h4 th:if="*{book.inStockNumber==0}" style="color:darkred;">Unavailable</h4>
+    									<button type="submit" class="btn btn-warning" style="color:black;border:1px solid black; padding: 10px 40px 10px 40px;">Add to Cart</button>
+    								</div>
+    							</div>
+    						</div>
+    					</div>
+    				</div>
+    			</div>
+    			
+    			<hr/>
+    			<p th:utext="${book.description}"></p>
+    		</div>
+    	</div>
+    </form>
+    <br>
+		
+		<div class="row" style="margin-top: 10px;">
+		
+			<form th:action="@{/review}" th:object="${review}" method="post">
+			<div class="row">
+			<div class="col-xs-3">
+			</div>
+			
+			<div class="col-xs-5">
+				<input type="hidden" th:value="${book.id}" name="bookid">
+				<input type="hidden" th:value="${user}?${(user.id)}: 'null'" name="userid">
+
+				<div class="input-group">
+					<div class="input-group-prepend">
+						<span class="input-group-text">Add your comment about this book.</span>
+					</div>
+					<textarea name="description" class="form-control" aria-label="With textarea" style="margin: 0px; width: 500px; height: 90px;"></textarea>
+				</div>
+				
+				</div>
+				<div class="col-xs-1">
+				<h2>Rating:</h2>
+				</div>
+				<div class="col-xs-3">
+				<!-- <select style="margin-top: 30px;" name="rating" id="rating">
+					<option value="1">1</option>
+					<option value="2">2</option>
+					<option value="3">3</option>
+					<option value="4">4</option>
+					<option value="5">5</option>
+				</select> -->
+				<span class="star-rating">
+  <input type="radio" name="rating" value="1"><i></i>
+  <input type="radio" name="rating" value="2"><i></i>
+  <input type="radio" name="rating" value="3"><i></i>
+  <input type="radio" name="rating" value="4"><i></i>
+  <input type="radio" name="rating" value="5"><i></i></span>
+		<style>
+.star-rating {
+  font-size: 0;
+  white-space: nowrap;
+  display: inline-block;
+  width: 250px;
+  height: 50px;
+  overflow: hidden;
+  position: relative;
+  background:     url('data:image/svg+xml;base64,PHN2ZyB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHg9IjBweCIgeT0iMHB4IiB3aWR0aD0iMjBweCIgaGVpZ2h0PSIyMHB4IiB2aWV3Qm94PSIwIDAgMjAgMjAiIGVuYWJsZS1iYWNrZ3JvdW5kPSJuZXcgMCAwIDIwIDIwIiB4bWw6c3BhY2U9InByZXNlcnZlIj48cG9seWdvbiBmaWxsPSIjREREREREIiBwb2ludHM9IjEwLDAgMTMuMDksNi41ODMgMjAsNy42MzkgMTUsMTIuNzY0IDE2LjE4LDIwIDEwLDE2LjU4MyAzLjgyLDIwIDUsMTIuNzY0IDAsNy42MzkgNi45MSw2LjU4MyAiLz48L3N2Zz4=');
+  background-size: contain;
+}
+.star-rating i {
+  opacity: 0;
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 20%;
+  z-index: 1;
+  background:     url('data:image/svg+xml;base64,PHN2ZyB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHg9IjBweCIgeT0iMHB4IiB3aWR0aD0iMjBweCIgaGVpZ2h0PSIyMHB4IiB2aWV3Qm94PSIwIDAgMjAgMjAiIGVuYWJsZS1iYWNrZ3JvdW5kPSJuZXcgMCAwIDIwIDIwIiB4bWw6c3BhY2U9InByZXNlcnZlIj48cG9seWdvbiBmaWxsPSIjRkZERjg4IiBwb2ludHM9IjEwLDAgMTMuMDksNi41ODMgMjAsNy42MzkgMTUsMTIuNzY0IDE2LjE4LDIwIDEwLDE2LjU4MyAzLjgyLDIwIDUsMTIuNzY0IDAsNy42MzkgNi45MSw2LjU4MyAiLz48L3N2Zz4=');
+  background-size: contain;
+}
+.star-rating input {
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  opacity: 0;
+  display: inline-block;
+  width: 20%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  z-index: 2;
+  position: relative;
+}
+.star-rating input:hover + i,
+.star-rating input:checked + i {
+  opacity: 1;
+}
+.star-rating i ~ i {
+  width: 40%;
+}
+.star-rating i ~ i ~ i {
+  width: 60%;
+}
+.star-rating i ~ i ~ i ~ i {
+  width: 80%;
+}
+.star-rating i ~ i ~ i ~ i ~ i {
+  width: 100%;
+}
+
+::after,
+::before {
+  height: 100%;
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  text-align: center;
+  vertical-align: middle;
+}
+</style>
+				<br><br> <input style="color:#F7F9F9; background-color: #212F3C;" type="submit" value="Submit" />
+				</div>
+				
+				</div>
+			</form>
+			
+		</div>
+		
+		<div class="row">
+		<div class="col-xs-3">
+		</div>
+		
+		
+			
+		<div class="col-xs-4">
+		
+			<div data-th-each="tempCustomer : ${review}">
+			<div class="panel1 panel-default" style="height: 50px;">
+					<div class="panel-body1">
+				<span th:text="${tempCustomer!=null && tempCustomer.description!=null}?${tempCustomer.description}:'Null'"></span>
+				
+				</div>
+			</div>
+				</div>
+			
+			</div>
+			<div class="col-xs-4">
+			<div data-th-each="tempFeedback : ${feedback}">
+			<div class="panel1 panel-default" style="height: 50px;">
+					<div class="panel-body1">
+				<span style="font-size: 20px;" th:text="${tempFeedback!=null}?${tempFeedback}:'Null'">nothing</span>
+				</div>
+				</div>
+			</div>
+			</div>
+			
+		</div>
+		
+		
+
+	</div>
+	<!-- end of container -->
+
+
+
+
+<div th:replace="common/header :: footer" />
+	<div th:replace="common/header :: body-bottom-scripts" />
+</body>
+</html>

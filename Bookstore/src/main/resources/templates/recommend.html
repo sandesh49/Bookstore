@@ -1,0 +1,78 @@
+
+<!doctype html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+
+<head th:replace="common/header :: common-header" />
+
+<body>
+
+	<div th:replace="common/header :: navbar" />
+ 
+	<div class="container">
+		<div class="row">
+			<div class="col-xs-4">
+				<h1>Online bookstore using recommendation system</h1>
+			</div>
+
+			
+			
+		</div>
+		<hr />
+		
+		<div class="home-headline1" style="margin-top:20px;">
+				<span>Books recommendations for you :</span>
+			</div>
+		 
+		<div class="row" style="margin-top: 50px">
+		<div class="col-xs-2">
+			
+				
+						<div data-th-each="book : ${bookid}">
+					<div class="panel panel-default" style="height:250px">
+					<div class="panel-body">
+					
+						<div class="hover1" style="height: 200px">
+							<figure>
+								<a th:href="@{/bookDetail?id=}+${book}"><img
+									class="img-responsive shelf-book"
+									th:src="#{adminPath}+@{/image/book/}+${book}+'.png'" /></a>
+							</figure>
+							</div> <br />
+					
+					
+					
+						</div>
+					</div>
+				</div>
+					
+			</div>
+			<div class="col-xs-6">
+			<div th:each="book : ${book}">
+					
+					<div class="panel1 panel-default" style="height:250px">
+					<div class="panel-body1">
+					
+					<div>
+							<h3 th:text="${book.title}"></h3>
+					
+						</div> <br />
+						</div>
+						</div>
+					
+			</div>
+			</div>
+			
+		</div>
+		<br>
+		
+	</div>
+	<!-- end of container -->
+
+
+
+<div th:replace="common/header :: footer" />
+
+	<div th:replace="common/header :: body-bottom-scripts" />
+
+</body>
+</html>

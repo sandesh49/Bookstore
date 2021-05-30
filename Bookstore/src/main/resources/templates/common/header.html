@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml"
+	xmlns:sec="http://www.w3.org/1999/xhtml">
+<head th:fragment="common-header">
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+
+
+<title>Hamro Books</title>
+
+<!-- Bootstrap core CSS -->
+<link href="/css/bootstrap.min.css" rel="stylesheet">
+<link href="/css/non-responsive.css" rel="stylesheet">
+
+<!-- Custom styles for this template -->
+<link href="/css/style.css" rel="stylesheet">
+
+<link href='https://fonts.googleapis.com/css?family=Abril Fatface'
+	rel='stylesheet'>
+<link
+	href="https://fonts.googleapis.com/css2?family=Chilanka&family=Overlock&display=swap"
+	rel="stylesheet">
+
+<!-- data table -->
+<link th:href="@{/css/jquery.dataTables.min.css}" rel="stylesheet" />
+<link th:href="@{/css/dataTables.bootstrap.min.css}" rel="stylesheet" />
+
+<link
+	th:href="@{http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css}"
+	rel="stylesheet" />
+<link
+	th:href="@{https://kit.fontawesome.com/a076d05399.js}" />
+
+<link rel="icon" href="/image/icon.png">
+
+</head>
+
+<body>
+	<div th:fragment="navbar">
+		<div class="page-top" style="width: 100%;"></div>
+
+		<!-- Static navbar -->
+		<nav class="navbar navbar-default" style="background-color: #404040">
+			<div class="container-fluid">
+				<div class="navbar-header">
+
+					<a class="navbar-brand" th:href="@{/}">Online bookstore using recommendation system</a>
+				</div>
+				<div id="navbar">
+					<ul class="nav navbar-nav navbar-left">
+
+						<li class="dropdown"><a th:href="@{/bookshelf}"
+							class="dropdown-toggle" data-toggle="dropdown" role="button"
+							aria-haspopup="true" aria-expanded="false">BOOKS <span
+								class="caret"></span></a>
+							<ul class="dropdown-menu">
+								<li><a th:href="@{/bookshelf}">Browse books</a></li>
+								<li><a sec:authorize="isAuthenticated()"
+							th:href="@{/recommend}">Recommendations</a></li>
+								<li><a href="#">Store hours &#38; directions</a></li>
+								<li><a href="#">FAQ</a></li>
+							</ul></li>
+
+						<form class="navbar-form" th:action="@{/searchBook}" method="post">
+							<div class="form-group">
+								<input type="text" name="keyword" class="form-control"
+									placeholder="Book title" />
+							</div>
+							<button type="submit" class="btn btn-default">Search</button>
+						</form>
+					</ul>
+					<ul class="nav navbar-nav navbar-right">
+						<li><a th:href="@{/shoppingCart/cart}">Shopping Cart</a></li>
+						<li><a sec:authorize="isAnonymous()" th:href="@{/login}">My
+								Account</a></li>
+						<li><a sec:authorize="isAuthenticated()"
+							th:href="@{/myProfile}">My Account</a></li>
+						<li><a sec:authorize="isAuthenticated()" th:href="@{/logout}">Logout</a></li>
+					</ul>
+				</div>
+				<!--/.nav-collapse -->
+			</div>
+			<!--/.container-fluid -->
+		</nav>
+	</div>
+
+	<div th:fragment="footer">
+		<!-- Site footer -->
+		<footer class="site-footer">
+			<div class="container">
+				<div class="row">
+					<div class="col-xs-3">
+						<img src="/image/logo.png" class="center1">
+					</div>
+
+					<div class="col-xs-4">
+						<h1>About Hamro Books</h1>
+						<p>Hamro Books is an online bookstore, physically based in
+							Kalanki, Nepal, with an aim to create the largest community of
+							book readers in Nepal.News and events At Hamro Books, you can
+							browse and buy books online at the lowest everyday prices.</p>
+					</div>
+
+					<div class="col-xs-4 col-xs-offset-1" style="margin-top:20px;">
+						<h6>Quick Links</h6>
+						<ul class="footer-links">
+							<li><a href="#">About Us</a></li>
+							<li><a href="#">Contact Us</a></li>
+							<li><a href="#">Affiliate</a></li>
+							<li><a href="#">Privacy
+									Policy</a></li>
+							<li><a href="#">Sitemap</a></li>
+						</ul>
+					</div>
+				</div>
+				<hr>
+			</div>
+			<div class="container">
+				<div class="row">
+					<div class="col-md-8 col-sm-6 col-xs-12">
+						<p class="copyright-text">
+							Copyright &copy; 2020 All Rights Reserved by <a href="#">Hamro Books</a>.
+						</p>
+					</div>
+
+					<div class="col-md-4 col-sm-6 col-xs-12">
+						<ul class="social-icons">
+							<li><a class="facebook" href="#"><i
+									class="fa fa-facebook"></i></a></li>
+							<li><a class="twitter" href="#"><i class="fa fa-twitter"></i></a></li>
+							
+							<li><a class="linkedin" href="#"><i
+									class="fa fa-linkedin"></i></a></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</footer>
+	</div>
+
+	<div th:fragment="body-bottom-scripts">
+
+		<script th:src="@{/js/jquery.min.js}"></script>
+		<script th:src="@{/js/bootstrap.min.js}"></script>
+		<script th:src="@{https://kit.fontawesome.com/a076d05399.js}"></script>
+		<script th:src="@{/js/scripts.js}"></script>
+
+		<!-- data table -->
+		<script th:src="@{/js/jquery.dataTables.min.js}"></script>
+		<script th:src="@{/js/dataTables.bootstrap.min.js}"></script>
+
+
+	</div>
+</body>
+</html>
